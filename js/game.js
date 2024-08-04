@@ -646,8 +646,8 @@ function resizeGame() {
     const windowRatio = windowWidth / windowHeight;
 
     if (windowRatio > gameRatio) {
-        gameContainer.style.height = '100vh';
         gameContainer.style.width = `${windowHeight * gameRatio}px`;
+        gameContainer.style.height = '100vh';
     } else {
         gameContainer.style.width = '100vw';
         gameContainer.style.height = `${windowWidth / gameRatio}px`;
@@ -916,27 +916,11 @@ function showCharacterSelectScreen() {
         charButton.disabled = !char.unlocked;
         charButton.addEventListener('click', () => {
             playSE('select');
-            startGameWithCharacter(char);
+            showCharacterInfo(char, selectScreen);
         });
 
         charButton.addEventListener('mouseover', () => {
             selectScreen.style.backgroundImage = `url('${char.backgroundImage}')`;
-            if (char.unlocked) {
-                characterInfo.innerHTML = `
-                    <h3>${char.name}</h3>
-                    <p>${char.description}</p>
-                    <h4>スキル: ${char.skill.name}</h4>
-                    <p>${char.skill.description}</p>
-                `;
-                characterInfo.style.display = 'block';
-            } else {
-                characterInfo.innerHTML = '<p>このキャラクターはまだアンロックされていません。</p>';
-                characterInfo.style.display = 'block';
-            }
-        });
-
-        charButton.addEventListener('mouseout', () => {
-            characterInfo.style.display = 'none';
         });
 
         characterContainer.appendChild(charButton);
@@ -955,6 +939,28 @@ function showCharacterSelectScreen() {
     gameArea.appendChild(selectScreen);
 }
 
+function showCharacterInfo(character, selectScreen) {
+    const characterInfo = document.getElementById('character-info');
+    characterInfo.innerHTML = `
+        <h3>${character.name}</h3>
+        <p>${character.description}</p>
+        <h4>スキル: ${character.skill.name}</h4>
+        <p>${character.skill.description}</p>
+        <button id="start-game-button">ゲームスタート</button>
+        <button id="back-to-selection-button">キャラクター選択に戻る</button>
+    `;
+    characterInfo.style.display = 'block';
+
+    document.getElementById('start-game-button').addEventListener('click', () => {
+        startGameWithCharacter(character);
+    });
+
+    document.getElementById('back-to-selection-button').addEventListener('click', () => {
+        characterInfo.style.display = 'none';
+    });
+
+    selectScreen.style.backgroundImage = `url('${character.backgroundImage}')`;
+}
 function startGameWithCharacter(character) {
     try {
         currentCharacter = character;
@@ -2108,6 +2114,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const touch = event.touches[0];
             moveNextObject({ clientX: touch.clientX, clientY: touch.clientY });
         }, { passive: false });
+
+        gameArea.addEventListener('touchend', dropObject);
+    }
+});
 
         gameArea.addEventListener('touchend', dropObject);
     }
