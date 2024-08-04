@@ -2118,7 +2118,3 @@ document.addEventListener('DOMContentLoaded', () => {
         gameArea.addEventListener('touchend', dropObject);
     }
 });
-
-        gameArea.addEventListener('touchend', dropObject);
-    }
-});
