@@ -587,7 +587,16 @@ input[type="range"] {
     }
 
     #character-buttons {
-        width: 60%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    
+    #character-buttons button {
+        width: 45%;
+        margin: 5px;
     }
 
     #character-info {
@@ -886,3 +895,31 @@ input[type="range"] {
       opacity: 0;
     }
   }
+  #story-content, #instructions-screen .content-wrapper {
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#game-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-area {
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
